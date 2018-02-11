@@ -23,6 +23,7 @@ pandas: 		for constructing the dataframe
 requests: 		to scrape DOI links quickly and easily
 urllib2:		to download the pdfs
 re: 			to do regex stuff
+html5lib:		to run BS4
 
 
 '''
