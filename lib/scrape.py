@@ -19,7 +19,7 @@ from bs4 import BeautifulSoup
 import time
 import os
 import sys
-import textract
+#import textract
 import numpy as np
 import pandas as pd
 
