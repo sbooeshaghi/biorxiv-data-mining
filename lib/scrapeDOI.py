@@ -13,8 +13,11 @@ def scrapeDOI():
 	r = requests.get(page1)
 	soup = BeautifulSoup(r.content, 'html5lib')
 	lp = soup.find('li', {'class': 'pager-last last odd'})
-	lp_num = int(lp.getText()) - 1 # the way they index is from 1:n-1
+	lp_num = int(lp.getText()) # the way they index is from 1:n-1
 	r.close()
+	# to scrape from end to beginning, run the loop backwards
+	# for pageNum in reversed(xrange(1, lp_num)):
+	# 	--begin code here--
 
 	for pageNum in [lp_num-1]:
 
