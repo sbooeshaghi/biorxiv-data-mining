@@ -24,12 +24,12 @@ import numpy as np
 import pandas as pd
 
 # sina's functions
-from lib.dloadPDF import download
-from lib.getInfo import getInfo
-from lib.scrapeDOI import scrapeDOI
-from lib.pdfchanger import convert
+from dloadPDF import download
+from getInfo import getInfo
+from scrapeDOI import scrapeDOI
+from pdfchanger import convert
 #from mlMain import mlMain
-from lib.sort import sort
+from sort import sort
 
 
 def scrape():

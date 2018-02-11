@@ -1,5 +1,6 @@
 from collections import OrderedDict
 from collections import Counter
+import re
 
 def getInfo(soup, doJ):
 ## Find out where it as published (if any) jrnl may be empty
@@ -32,7 +33,11 @@ def getInfo(soup, doJ):
 	snames = list(OrderedDict.fromkeys(snames))
 
 	## Put the authors names into a dict
-	authors = list(zip(snames, fnames))
+	aff = soup.find_all('span', {'class':'nlm-aff'})
+	aff = [i.getText() for i in aff]
+	aff = [re.sub(r'[\t\n;]', '', i) for i in aff]
+
+	authors = list(zip(snames, fnames, aff))
 
 	## Find out when the article was posted to the Arxiv
 	date_posted = soup.find('li', {'class':'published'}).getText()

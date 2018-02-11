@@ -21,9 +21,12 @@ sys: 			for error exiting
 numpy:			dataframe manipulation
 pandas: 		for constructing the dataframe
 requests: 		to scrape DOI links quickly and easily
+urllib2:		to download the pdfs
+re: 			to do regex stuff
+
 
 '''
-# TODO: write a seprate script to parse through dataframe and conver pdf to txt
+# TODO: write a seprate script to parse through dataframe and convert pdf to txt
 # using 
 #text = convert(download_path + '/'+new_file_name)
 

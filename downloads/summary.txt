@@ -3,10 +3,12 @@ SUMMARY OF PAPERS DOWNLOADED FROM THE BIOARXIV
 Total number of papers downloaded: 10
 
 NUMBER OF PAPERS PER JOURNAL
-Pre-print:7
-Nature Communications:1
-NeuroImage:1
-Molecular Biology of the Cell:1
+Pre-print:5
+Trends in Genetics:1
+PLOS ONE:1
+Genome Research:1
+Biochimie:1
+Nucleic Acids Research:1
 
 
-Your session took this long to run [min]: 1.36109243234
+Your session took this long to run [min]: 1.50269956986

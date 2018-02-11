@@ -7,7 +7,16 @@ def scrapeDOI():
 	doiLinks = []
 	n = 3 # number of pages to scrape
 	baseURL = "https://www.biorxiv.org/content/early/recent?page="
-	for pageNum in [1009]:
+
+	# first find out how many pages to iterate through
+	page1 = "https://www.biorxiv.org/content/early/recent?page=1"
+	r = requests.get(page1)
+	soup = BeautifulSoup(r.content, 'html5lib')
+	lp = soup.find('li', {'class': 'pager-last last odd'})
+	lp_num = int(lp.getText()) - 1 # the way they index is from 1:n-1
+	r.close()
+
+	for pageNum in [lp_num-1]:
 
 		URL = baseURL + str(pageNum)
 		print URL + '\n'
