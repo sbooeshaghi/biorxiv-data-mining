@@ -1,0 +1,14 @@
+SUMMARY OF PAPERS DOWNLOADED FROM THE BIOARXIV
+
+Total number of papers downloaded: 10
+
+NUMBER OF PAPERS PER JOURNAL
+Pre-print:5
+Cancer Research:1
+Molecular Biology of the Cell:1
+Bioinformatics:1
+Nature Communications:1
+Sage Open:1
+
+
+Your session took this long to run [min]: 1.42069068352

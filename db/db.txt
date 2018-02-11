@@ -1,0 +1,30 @@
+Analysis of global and site-specific radiation damage in cryo-EM|1517501302458
+DeepHINT: Understanding HIV-1 integration via deep learning with attention|1517501302458
+Habitat loss is information loss: Species distribution models are compromised in anthropogenic landscapes|1517501302458
+Single Session Real-time fMRI Neurofeedback has a Lasting Impact on Cognitive Behavioral Therapy Strategies|1517501302458
+Functional organization of motion and disparity sensitivity in human visual cortex|1517501302458
+Regulation by competition: a hidden layer of gene regulatory network|1517501302458
+PTMscape: an open source tool to predict generic post-translational modifications and map hotspots of modification crosstalk|1517501302458
+Structure of Zip2:Spo16, a conserved XPF:ERCC1-like complex critical for meiotic crossover formation|1517501302458
+Identification of endogenous Adenomatous polyposis coli interaction partners and {beta}-catenin-independent targets by proteomics|1517501302458
+A Comprehensive Overview Of Genomic Imprinting In Breast & Its Deregulation In Cancer|1517501302458
+Peroxiredoxin-mediated HMGB1 oxidation and secretion in response to inflammatory stimuli|1517501302458
+Fatherhood alters gene expression within the MPOA|1517501302458
+Crystal structure of chromo barrel domain of RBBP1|1517501302458
+Structural and histone binding studies of the chromo barrel domain of TIP60|1517501302458
+A Survey of Orbitrap All Ion Fragmentation Analysis Assessed by an R MetaboList Package to Study Small-molecule Metabolites|1517501302458
+Pleiotropic Mapping and Annotation Selection in Genome-wide Association Studies with Pe-nalized Gaussian Mixture Models|1517501302458
+PROSSTT: probabilistic simulation of single-cell RNA-seq data for complex differentiation processes|1517501302458
+Fragile X mental retardation protein is a size-dependent translational activator|1517501302458
+Using river temperature to optimize fish incubation metabolism and survival: a case for mechanistic models|1517501302458
+Predatory Behavior is Primary Predictor of Movement of Wildland-Urban Cougars|1517501302458
+Conservation of sex-linked markers among conspecific populations of a viviparous skink, Niveoscincus ocellatus, exhibiting genetic and temperature dependent sex determination|1517501302458
+Bayesian model comparison for rare variant association studies of multiple phenotypes|1517501302458
+Next generation CRISPR/Cas9 transcriptional activation in Drosophila using flySAM|1517501302458
+DNA Topoisomerase I differentially modulates R-loops across the human genome|1517501302458
+Rapid multiplex small DNA sequencing on the MinION nanopore sequencing platform|1517501302458
+A Gender-Dependent Molecular Switch of Inflammation via MyD88/Estrogen Receptor-alpha Interaction|1517501302458
+Molecular determinants of Yellow Fever Virus pathogenicity in Syrian Golden Hamsters: one mutation away from virulence|1517501302458
+Exploratory re-encoding of Yellow Fever Virus genome: analysis of in vitro and in vivo replicative phenotypes|1517501302458
+Ferroptosis-like signaling facilitates a potent innate defense against Plasmodium infection|1517501302458
+N6-methyladenosine Binding Proteins Negatively Regulate HIV-1 Infectivity and Viral Production|1517501302458

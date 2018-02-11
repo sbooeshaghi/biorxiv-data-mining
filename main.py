@@ -1,0 +1,32 @@
+"""
+Created on Sat Feb 10 2018
+
+@author: alisina (Sina Booeshaghi)
+
+main.py
+---
+This is the main file which calls scrape. TBH idk if it was necessary to even 
+have this sort of file structure breakdown but whatevs. Note: df is the dataframe
+that is returned from scrape which contains all of the info you could ever want.
+"""
+
+'''
+List of dependencies:
+pdfminer: 		pdf to text converter
+timeit: 		timing the python program
+selenium: 		to run the webdriver
+beautifulSoup: 	to grab html from website
+os: 			for getting pwd etc
+sys: 			for error exiting
+numpy:			dataframe manipulation
+pandas: 		for constructing the dataframe
+requests: 		to scrape DOI links quickly and easily
+
+'''
+# TODO: write a seprate script to parse through dataframe and conver pdf to txt
+# using 
+#text = convert(download_path + '/'+new_file_name)
+
+from lib.scrape import scrape
+
+data = scrape()
