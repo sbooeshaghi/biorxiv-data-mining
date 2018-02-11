@@ -49,13 +49,14 @@ def scrape():
 		 			'Journal': None,
 		 			'Link': None,
 		 			'Abstract': None,
-		 			'Text': None}
+		 			'Text': None,
+		 			'Twitter': [None, None]}
 		# note to add a dictionary with lists as values, to a dataframe, do 
 		# pd.DataFrame([dictionary]) where you use the [.] 
 		df = pd.DataFrame([preload])
 		## when indexing into the dataframe, the order of the columns will be 
-		##  	Abstract 	Authors 	Date 	Posted 	Journal 	Link 	Text 	Title
-		##	0	None		[NaN, NaN]	NaN 	NaN 	NaN 		NaN 	NaN 	NaN
+		##  	Abstract 	Authors 	Date 	Posted 	Journal 	Link 	Text 	Title 	Twitter
+		##	0	None		[NaN, NaN]	NaN 	NaN 	NaN 		NaN 	NaN 	NaN 	NaN
 		## 
 		## to add a row 
 		for link in doiLinks:
@@ -68,7 +69,7 @@ def scrape():
 			print '[**----] Page connected! Grabbing contents, please wait.'
 
 			# grabbing all relevant data from page
-			jrnl, authors, date_posted, abstract, title = getInfo(soup, doJ)
+			jrnl, authors, date_posted, abstract, title, twitter = getInfo(soup, doJ)
 			new_file_name = jrnl + str(doJ[jrnl]) + '.pdf'
 			print '[***---] Published in: ' + jrnl
 
@@ -80,7 +81,7 @@ def scrape():
 			print '[*****-] PDF location written.'
 		    
 		    # write all of the info to the dataframe
-			info = [abstract, authors, date_posted, jrnl, link, text_loc, title]
+			info = [abstract, authors, date_posted, jrnl, link, text_loc, title, twitter]
 			end = df.shape[0]
 			df.loc[end] = info
 			print '[******] Relevant paper info written to a text file.\n'
@@ -103,7 +104,7 @@ def scrape():
 
 	## swap the data frame columns to an order that makes more sense
 	# date_posted, title, jrnl, authors, link, abstract, text
-	columns = ['Date Posted', 'Title', 'Journal', 'Authors', 'Link', 'Abstract', 'Text']
+	columns = ['Date Posted', 'Title', 'Journal', 'Authors', 'Link', 'Abstract', 'Text', 'Twitter']
 	df = df[columns]
 
 	# Get rid of the Nones placeholder and save the pandas dataframe to a csv 

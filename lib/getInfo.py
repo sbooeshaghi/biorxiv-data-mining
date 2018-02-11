@@ -1,4 +1,5 @@
 from collections import OrderedDict
+from collections import Counter
 
 def getInfo(soup, doJ):
 ## Find out where it as published (if any) jrnl may be empty
@@ -43,4 +44,13 @@ def getInfo(soup, doJ):
 	## Get the title of the paper
 	title = soup.find('h1', {'id' : 'page-title'}).getText()
 
-	return jrnl, authors, date_posted, abstract, title
+	## Twitter data
+	#rt = soup.find_all('a', {'class':'retweet'})
+	#num_rt = len(rt)
+
+	date_rt = soup.find_all('time')
+	date_rt = [date.getText() for date in date_rt]
+	count_dates = Counter(date_rt)
+	rt = zip(count_dates.keys(), count_dates.values())
+
+	return jrnl, authors, date_posted, abstract, title, rt
