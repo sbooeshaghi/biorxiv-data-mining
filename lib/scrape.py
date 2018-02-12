@@ -58,7 +58,11 @@ def scrape():
 	##	0	None		[NaN, NaN]	NaN 	NaN 	NaN 		NaN 	NaN 	NaN 	NaN
 	## 
 	## to add a row 
+	total_num = len(doiLinks)
 	for link in doiLinks:
+		ind = doiLinks.index(link)
+		print 'Number of papers left to download: ' + str(total_num-ind)
+
 		print '[*-----] Connecting to page..'
 
 		## connect to the page
@@ -85,7 +89,7 @@ def scrape():
 		df.loc[end] = info
 		print '[******] Relevant paper info written to a text file.\n'
 		
-		print 'Moving on to grab the next paper.'
+		print 'Moving on to grab the next paper.\n'
 	    
 	## Close the session		
 	driver.quit()

@@ -18,11 +18,12 @@ def scrapeDOI():
 	# to scrape from end to beginning, run the loop backwards
 	# for pageNum in reversed(xrange(1, lp_num)):
 	# 	--begin code here--
-
-	for pageNum in [lp_num-1]:
+	start_page = 1000
+	for pageNum in reversed(xrange(start_page, lp_num-1)):
+	#for pageNum in [lp_num-1]:
 
 		URL = baseURL + str(pageNum)
-		print URL + '\n'
+		print URL
 		r = requests.get(URL)
 
 		soup = BeautifulSoup(r.content, 'html5lib')
