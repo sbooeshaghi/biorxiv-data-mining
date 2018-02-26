@@ -22,6 +22,7 @@ import sys
 #import textract
 import numpy as np
 import pandas as pd
+import re
 
 # sina's functions
 from dloadPDF import download
@@ -30,17 +31,20 @@ from scrapeDOI import scrapeDOI
 from pdfchanger import convert
 #from mlMain import mlMain
 from sort import sort
+#TODO check this random attribute error and then figure out counting ie passing doJ since you can 
+# urg idk you phuced it up
 
 
-def scrape():
+def scrape(doiLinks):
 	options = webdriver.ChromeOptions()
 	options.add_argument('headless')
 	driver = webdriver.Chrome(chrome_options=options)
 
-	doiLinks = scrapeDOI()
+	#doiLinks = scrapeDOI()
 	download_path = os.getcwd() + '/downloads'
+	data_path = os.getcwd() + '/data'
 	doJ = {} #{'Pre-print':0, 'Science':0, 'Nature':0, 'Cell':0} # key is the journal name, value is the number of journals
-
+	num_data = 1
 	# create pandas dataframe for storing all of this information
 	preload = {'Date Posted': None,
 	 			'Title': None, 
@@ -59,6 +63,7 @@ def scrape():
 	## 
 	## to add a row 
 	total_num = len(doiLinks)
+	counter = 1
 	for link in doiLinks:
 		ind = doiLinks.index(link)
 		print 'Number of papers left to download: ' + str(total_num-ind)
@@ -72,16 +77,23 @@ def scrape():
 		print '[**----] Page connected! Grabbing contents, please wait.'
 
 		# grabbing all relevant data from page
-		jrnl, authors, date_posted, abstract, title, twitter = getInfo(soup, doJ)
+		jrnl, authors, date_posted, abstract, title, twitter, doJ = getInfo(soup, doJ)
 		new_file_name = jrnl + str(doJ[jrnl]) + '.pdf'
 		print '[***---] Published in: ' + jrnl
 
 		# download the pdf
-		download(soup, download_path, new_file_name)
+		if jrnl != 'DOI Not Found':
+			download_ok = download(soup, download_path, new_file_name)
+		else:
+			download_ok = None
+		# in case the file is not accessible
 
-		# get loc for pdf to do pdf to txt later
-		text_loc = download_path + '/'+ jrnl + '/' + new_file_name
-		print '[*****-] PDF location written.'
+		if download_ok != None:
+			text_loc = download_ok
+		else:
+			# get loc for pdf to do pdf to txt later
+			text_loc = download_path + '/'+ jrnl + '/' + new_file_name
+			print '[*****-] PDF location written.'
 	    
 	    # write all of the info to the dataframe
 		info = [abstract, authors, date_posted, jrnl, link, text_loc, title, twitter]
@@ -90,6 +102,22 @@ def scrape():
 		print '[******] Relevant paper info written to a text file.\n'
 		
 		print 'Moving on to grab the next paper.\n'
+
+		if counter % 1025 == 0:
+			
+			#print 'Pausing for 30 sec so we dont look like a DDOS attack..'
+			#time.sleep(30)
+			columns = ['Date Posted', 'Title', 'Journal', 'Authors', 'Link', 'Abstract', 'Text', 'Twitter']
+			df = df[columns]
+
+			# Get rid of the Nones placeholder and save the pandas dataframe to a csv 
+			df.drop(0, inplace=True)
+			name_of_csv = 'data' + str(num_data) + '.csv'
+			path_to_save_csv = data_path + '/' + name_of_csv
+			df.to_csv(path_to_save_csv, encoding='utf-8', index=False)
+			df = pd.DataFrame([preload])
+			num_data += 1
+		counter += 1
 	    
 	## Close the session		
 	driver.quit()
@@ -112,8 +140,8 @@ def scrape():
 
 	# Get rid of the Nones placeholder and save the pandas dataframe to a csv 
 	df.drop(0, inplace=True)
-	name_of_csv = 'data.csv'
-	path_to_save_csv = download_path + '/' + name_of_csv
+	name_of_csv = 'data' + str(num_data) + '.csv'
+	path_to_save_csv = data_path + '/' + name_of_csv
 	df.to_csv(path_to_save_csv, encoding='utf-8', index=False)
 
 
@@ -136,7 +164,7 @@ def scrape():
 	print 'Sorted all files. A summary of your session is available in ../downloads/summary.txt'
 	elapsed = (timeit.default_timer() - start_time)/60
 	print 'Your session took this long to run [min]: ' + str(elapsed)
-	return df
+	return doJ
 
 
 #if __name__ == "__main__":

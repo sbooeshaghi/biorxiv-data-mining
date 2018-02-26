@@ -18,7 +18,7 @@ def scrapeDOI():
 	# to scrape from end to beginning, run the loop backwards
 	# for pageNum in reversed(xrange(1, lp_num)):
 	# 	--begin code here--
-	start_page = 1000
+	start_page = 1
 	for pageNum in reversed(xrange(start_page, lp_num-1)):
 	#for pageNum in [lp_num-1]:
 

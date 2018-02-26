@@ -1,9 +1,9 @@
 from cStringIO import StringIO
-import pdfminer
-from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
-from pdfminer.converter import TextConverter
-from pdfminer.layout import LAParams
-from pdfminer.pdfpage import PDFPage
+#import pdfminer
+#from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
+#from pdfminer.converter import TextConverter
+#from pdfminer.layout import LAParams
+#from pdfminer.pdfpage import PDFPage
 
 def convert(fname, pages=None):
     if not pages:

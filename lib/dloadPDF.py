@@ -20,11 +20,18 @@ def download(soup, download_path, file_name):
         ## if the link is a pdf then download it
         if linksplit[1] == '.pdf':
             ## open the url
-            current = urllib2.urlopen(tag['href'])
-            print "[****--] Downloading: ", file_name
-            # download the document
-            with open(download_path + '/' + file_name, 'wb') as f:
-                f.write(current.read())
+            try:
+                current = urllib2.urlopen(tag['href'])
+                print "[****--] Downloading: ", file_name
+                # download the document
+                with open(download_path + '/' + file_name, 'wb') as f:
+                    f.write(current.read())
+            except urllib2.HTTPError as e:
+                if e.code ==404:
+                    print 'Paper 404, could not be downloaded.'
+                    return 'no paper'
+                else:
+                    return 'no paper'
     return
 
 #download(soup, download_path, jrnl, doJ)
