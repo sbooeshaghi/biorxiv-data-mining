@@ -30,7 +30,18 @@ html5lib:		to run BS4
 # TODO: write a seprate script to parse through dataframe and convert pdf to txt
 # using 
 #text = convert(download_path + '/'+new_file_name)
-
+from selenium import webdriver
+from bs4 import BeautifulSoup
+import time
+import os
+import sys
+#import textract
+import numpy as np
+import pandas as pd
+import re
 from lib.scrape import scrape
 
-data = scrape()
+links = pd.read_csv('doiLinks.csv')
+links = links.values.ravel()
+links = links.tolist()
+data = scrape(links)

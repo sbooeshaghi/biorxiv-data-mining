@@ -50,13 +50,15 @@ def scrape(doiLinks):
 	 			'Title': None, 
 	 			'Authors': [None, None],
 	 			'Journal': None,
-	 			'Link': None,
+	 			'Link': [None, None],
 	 			'Abstract': None,
 	 			'Text': None,
 	 			'Twitter': [None, None]}
 	# note to add a dictionary with lists as values, to a dataframe, do 
 	# pd.DataFrame([dictionary]) where you use the [.] 
-	df = pd.DataFrame([preload])
+	#df = pd.DataFrame([preload])
+	storage = {}
+	storage['papers'] = []
 	## when indexing into the dataframe, the order of the columns will be 
 	##  	Abstract 	Authors 	Date 	Posted 	Journal 	Link 	Text 	Title 	Twitter
 	##	0	None		[NaN, NaN]	NaN 	NaN 	NaN 		NaN 	NaN 	NaN 	NaN
@@ -77,7 +79,7 @@ def scrape(doiLinks):
 		print '[**----] Page connected! Grabbing contents, please wait.'
 
 		# grabbing all relevant data from page
-		jrnl, authors, date_posted, abstract, title, twitter, doJ = getInfo(soup, doJ)
+		(jrnl, authors, date_posted, abstract, title, twitter, real_link, doJ) = getInfo(soup, doJ)
 		new_file_name = jrnl + str(doJ[jrnl]) + '.pdf'
 		print '[***---] Published in: ' + jrnl
 
@@ -94,11 +96,19 @@ def scrape(doiLinks):
 			# get loc for pdf to do pdf to txt later
 			text_loc = download_path + '/'+ jrnl + '/' + new_file_name
 			print '[*****-] PDF location written.'
-	    
+		both_links = [link, real_link]
 	    # write all of the info to the dataframe
-		info = [abstract, authors, date_posted, jrnl, link, text_loc, title, twitter]
-		end = df.shape[0]
-		df.loc[end] = info
+		storage['papers'].append({'date': date_posted,
+			'title': title, 
+			'authors': authors,
+			'journal': jrnl,
+			'link': real_link,
+			'abstract': abstract,
+			'text': text_loc,
+			'twitter': twitter})
+		#info = [abstract, authors, date_posted, jrnl, both_links, text_loc, title, twitter]
+		#end = df.shape[0]
+		#df.loc[end] = info
 		print '[******] Relevant paper info written to a text file.\n'
 		
 		print 'Moving on to grab the next paper.\n'
@@ -107,15 +117,17 @@ def scrape(doiLinks):
 			
 			#print 'Pausing for 30 sec so we dont look like a DDOS attack..'
 			#time.sleep(30)
-			columns = ['Date Posted', 'Title', 'Journal', 'Authors', 'Link', 'Abstract', 'Text', 'Twitter']
-			df = df[columns]
+			#columns = ['Date Posted', 'Title', 'Journal', 'Authors', 'Link', 'Abstract', 'Text', 'Twitter']
+			#df = df[columns]
 
 			# Get rid of the Nones placeholder and save the pandas dataframe to a csv 
-			df.drop(0, inplace=True)
-			name_of_csv = 'data' + str(num_data) + '.csv'
-			path_to_save_csv = data_path + '/' + name_of_csv
-			df.to_csv(path_to_save_csv, encoding='utf-8', index=False)
-			df = pd.DataFrame([preload])
+			#df.drop(0, inplace=True)
+			name_of_txt = 'data' + str(num_data) + '.txt'
+			path_to_save_txt = data_path + '/' + name_of_txt
+			with open(path_to_save_txt, 'w') as outfile:  
+				json.dump(storage, outfile)
+			#df.to_json(path_to_save_csv, index=False)
+			#df = pd.DataFrame([preload])
 			num_data += 1
 		counter += 1
 	    
@@ -135,15 +147,19 @@ def scrape(doiLinks):
 
 	## swap the data frame columns to an order that makes more sense
 	# date_posted, title, jrnl, authors, link, abstract, text
-	columns = ['Date Posted', 'Title', 'Journal', 'Authors', 'Link', 'Abstract', 'Text', 'Twitter']
-	df = df[columns]
+	#columns = ['Date Posted', 'Title', 'Journal', 'Authors', 'Link', 'Abstract', 'Text', 'Twitter']
+	#df = df[columns]
 
 	# Get rid of the Nones placeholder and save the pandas dataframe to a csv 
-	df.drop(0, inplace=True)
-	name_of_csv = 'data' + str(num_data) + '.csv'
-	path_to_save_csv = data_path + '/' + name_of_csv
-	df.to_csv(path_to_save_csv, encoding='utf-8', index=False)
+	#df.drop(0, inplace=True)
+	#name_of_csv = 'data' + str(num_data) + '.csv'
+	#path_to_save_csv = data_path + '/' + name_of_csv
+	#df.to_json(path_to_save_csv, index=False)
 
+	name_of_txt = 'data' + str(num_data) + '.txt'
+	path_to_save_txt = data_path + '/' + name_of_txt
+	with open(path_to_save_txt, 'w') as outfile:  
+		json.dump(storage, outfile)
 
 	# sort all of the files into folders
 	sort(doJ)
