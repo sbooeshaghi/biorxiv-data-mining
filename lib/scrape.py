@@ -31,8 +31,8 @@ from scrapeDOI import scrapeDOI
 from pdfchanger import convert
 #from mlMain import mlMain
 from sort import sort
-#TODO check this random attribute error and then figure out counting ie passing doJ since you can 
-# urg idk you phuced it up
+#TODO the webdriver gets stuck and will "hang" for some reason. check it out
+import json
 
 
 def scrape(doiLinks):
