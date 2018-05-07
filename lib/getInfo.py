@@ -113,5 +113,10 @@ def getInfo(soup, doJ):
 	except AttributeError:
 		rt = [('None', 'None')]
 	#import ipdb; ipdb.set_trace()
+	try:
+		category = soup.find('span', {'class':'highwire-article-collection-term'}).getText()
+		category = category.split('\n')[0]
+	except AttributeError:
+		category = 'None'
 
-	return (jrnl, authors, date_posted, abstract, title, rt, real_link, doJ)
+	return (jrnl, authors, date_posted, abstract, title, rt, real_link, category, doJ)

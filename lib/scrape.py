@@ -31,10 +31,13 @@ from scrapeDOI import scrapeDOI
 from pdfchanger import convert
 #from mlMain import mlMain
 from sort import sort
-#TODO the webdriver gets stuck and will "hang" for some reason. check it out
 import json
 from selenium.common.exceptions import TimeoutException
 
+#TODO: get categorical data from biorxiv, 
+
+#     <div class="highwire-list-wrapper highwire-article-collections"><div class="highwire-list"><ul class="highwire-article-collection-term-list"><li class="first last odd"><span class="highwire-article-collection-term"><a href="/collection/evolutionary-biology" class="highlight" data-icon-position="" data-hide-link-title="0">Evolutionary Biology<i class="icon-caret-right"></i>
+# </a></span></li></ul></div></div>
 
 def scrape(doiLinks):
 	numexcepts = 0
@@ -82,7 +85,7 @@ def scrape(doiLinks):
 			print '[**----] Page connected! Grabbing contents, please wait.'
 
 			# grabbing all relevant data from page
-			(jrnl, authors, date_posted, abstract, title, twitter, real_link, doJ) = getInfo(soup, doJ)
+			(jrnl, authors, date_posted, abstract, title, twitter, real_link, category, doJ) = getInfo(soup, doJ)
 			new_file_name = jrnl + str(doJ[jrnl]) + '.pdf'
 			print '[***---] Published in: ' + jrnl
 
@@ -108,7 +111,8 @@ def scrape(doiLinks):
 				'link': real_link,
 				'abstract': abstract,
 				'text': text_loc,
-				'twitter': twitter})
+				'twitter': twitter,
+				'category': category})
 			#info = [abstract, authors, date_posted, jrnl, both_links, text_loc, title, twitter]
 			#end = df.shape[0]
 			#df.loc[end] = info
@@ -116,7 +120,7 @@ def scrape(doiLinks):
 			
 			print 'Moving on to grab the next paper.\n'
 
-			if counter % 1025 == 0:
+			if counter % 5 == 0:
 				
 				#print 'Pausing for 30 sec so we dont look like a DDOS attack..'
 				#time.sleep(30)
