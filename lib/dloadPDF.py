@@ -7,9 +7,15 @@ import urllib2
 import os
 
 
-def download(soup, download_path, file_name):
+def download(soup, download_path, file_name, jrnl):
     #print 'doing this'
     ## Download pdf routine
+
+    save_to = download_path+'/'+jrnl
+    # check for the existence of a directory which is the name of the journal
+    if not os.path.isdir(save_to):
+        os.mkdir(save_to)
+
     for tag in soup.find_all('a', href=True): 
         # find <a> tags with href in it 
 
@@ -24,7 +30,7 @@ def download(soup, download_path, file_name):
                 current = urllib2.urlopen(tag['href'])
                 print "[****--] Downloading: ", file_name
                 # download the document
-                with open(download_path + '/' + file_name, 'wb') as f:
+                with open(save_to + '/' + file_name, 'wb') as f:
                     f.write(current.read())
             except urllib2.HTTPError as e:
                 if e.code ==404:

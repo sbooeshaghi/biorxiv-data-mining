@@ -33,9 +33,11 @@ from pdfchanger import convert
 from sort import sort
 #TODO the webdriver gets stuck and will "hang" for some reason. check it out
 import json
+from selenium.common.exceptions import TimeoutException
 
 
 def scrape(doiLinks):
+	numexcepts = 0
 	options = webdriver.ChromeOptions()
 	options.add_argument('headless')
 	driver = webdriver.Chrome(chrome_options=options)
@@ -73,62 +75,71 @@ def scrape(doiLinks):
 		print '[*-----] Connecting to page..'
 
 		## connect to the page
-		driver.get(link)
-		innerHTML = driver.execute_script('return document.body.innerHTML')
-		soup = BeautifulSoup(innerHTML, 'html5lib')
-		print '[**----] Page connected! Grabbing contents, please wait.'
+		try:
+			driver.get(link)
+			innerHTML = driver.execute_script('return document.body.innerHTML')
+			soup = BeautifulSoup(innerHTML, 'html5lib')
+			print '[**----] Page connected! Grabbing contents, please wait.'
 
-		# grabbing all relevant data from page
-		(jrnl, authors, date_posted, abstract, title, twitter, real_link, doJ) = getInfo(soup, doJ)
-		new_file_name = jrnl + str(doJ[jrnl]) + '.pdf'
-		print '[***---] Published in: ' + jrnl
+			# grabbing all relevant data from page
+			(jrnl, authors, date_posted, abstract, title, twitter, real_link, doJ) = getInfo(soup, doJ)
+			new_file_name = jrnl + str(doJ[jrnl]) + '.pdf'
+			print '[***---] Published in: ' + jrnl
 
-		# download the pdf
-		if jrnl != 'DOI Not Found':
-			download_ok = download(soup, download_path, new_file_name)
-		else:
-			download_ok = None
-		# in case the file is not accessible
+			# download the pdf
+			if jrnl != 'DOI Not Found':
+				download_ok = download(soup, download_path, new_file_name, jrnl)
+			else:
+				download_ok = None
+			# in case the file is not accessible
 
-		if download_ok != None:
-			text_loc = download_ok
-		else:
-			# get loc for pdf to do pdf to txt later
-			text_loc = download_path + '/'+ jrnl + '/' + new_file_name
-			print '[*****-] PDF location written.'
-		both_links = [link, real_link]
-	    # write all of the info to the dataframe
-		storage['papers'].append({'date': date_posted,
-			'title': title, 
-			'authors': authors,
-			'journal': jrnl,
-			'link': real_link,
-			'abstract': abstract,
-			'text': text_loc,
-			'twitter': twitter})
-		#info = [abstract, authors, date_posted, jrnl, both_links, text_loc, title, twitter]
-		#end = df.shape[0]
-		#df.loc[end] = info
-		print '[******] Relevant paper info written to a text file.\n'
-		
-		print 'Moving on to grab the next paper.\n'
-
-		if counter % 1025 == 0:
+			if download_ok != None:
+				text_loc = download_ok
+			else:
+				# get loc for pdf to do pdf to txt later
+				text_loc = download_path + '/'+ jrnl + '/' + new_file_name
+				print '[*****-] PDF location written.'
+			both_links = [link, real_link]
+		    # write all of the info to the dataframe
+			storage['papers'].append({'date': date_posted,
+				'title': title, 
+				'authors': authors,
+				'journal': jrnl,
+				'link': real_link,
+				'abstract': abstract,
+				'text': text_loc,
+				'twitter': twitter})
+			#info = [abstract, authors, date_posted, jrnl, both_links, text_loc, title, twitter]
+			#end = df.shape[0]
+			#df.loc[end] = info
+			print '[******] Relevant paper info written to a text file.\n'
 			
-			#print 'Pausing for 30 sec so we dont look like a DDOS attack..'
-			#time.sleep(30)
-			#columns = ['Date Posted', 'Title', 'Journal', 'Authors', 'Link', 'Abstract', 'Text', 'Twitter']
-			#df = df[columns]
+			print 'Moving on to grab the next paper.\n'
 
-			# Get rid of the Nones placeholder and save the pandas dataframe to a csv 
-			#df.drop(0, inplace=True)
-			name_of_txt = 'data' + str(num_data) + '.txt'
-			path_to_save_txt = data_path + '/' + name_of_txt
-			with open(path_to_save_txt, 'w') as outfile:  
-				json.dump(storage, outfile)
-			#df.to_json(path_to_save_csv, index=False)
-			#df = pd.DataFrame([preload])
-			num_data += 1
+			if counter % 1025 == 0:
+				
+				#print 'Pausing for 30 sec so we dont look like a DDOS attack..'
+				#time.sleep(30)
+				#columns = ['Date Posted', 'Title', 'Journal', 'Authors', 'Link', 'Abstract', 'Text', 'Twitter']
+				#df = df[columns]
+
+				# Get rid of the Nones placeholder and save the pandas dataframe to a csv 
+				#df.drop(0, inplace=True)
+				name_of_txt = 'data' + str(num_data) + '.txt'
+				path_to_save_txt = data_path + '/' + name_of_txt
+				with open(path_to_save_txt, 'w') as outfile:  
+					json.dump(storage, outfile)
+				#df.to_json(path_to_save_csv, index=False)
+				#df = pd.DataFrame([preload])
+				num_data += 1
+		except TimeoutException as ex:
+			numexcepts += 1
+			print "Timeout error, moving on to next one" + '\n\n\n' + str(ex)
+			with open('errors.txt', 'wb') as f:
+				f.write('Timeout exception event\n')
+				f.write(link + '\n\n')
+				f.write(numexcepts + '\n\n')
+			continue
 		counter += 1
 	    
 	## Close the session		
@@ -162,7 +173,7 @@ def scrape(doiLinks):
 		json.dump(storage, outfile)
 
 	# sort all of the files into folders
-	sort(doJ)
+	#sort(doJ)
 	num_downloaded = sum(doJ.values())
 
 	# print out a summary of everything

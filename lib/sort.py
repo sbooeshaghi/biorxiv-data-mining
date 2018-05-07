@@ -48,3 +48,6 @@ def sort(dictOfJournals):
 				continue
 		except:
 			continue
+
+
+
