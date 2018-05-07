@@ -192,6 +192,8 @@ def scrape(doiLinks):
 		elapsed = (timeit.default_timer() - start_time)/60
 		f.write('Your session took this long to run [min]: ' + str(elapsed))
 
+	with open(download_path + '/'+ 'summary_journals.txt', 'wb') as f:
+		json.dump(doj, f)
 	print 'Sorted all files. A summary of your session is available in ../downloads/summary.txt'
 	elapsed = (timeit.default_timer() - start_time)/60
 	print 'Your session took this long to run [min]: ' + str(elapsed)
