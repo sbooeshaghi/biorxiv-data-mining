@@ -38,6 +38,7 @@ from selenium.common.exceptions import TimeoutException
 
 #     <div class="highwire-list-wrapper highwire-article-collections"><div class="highwire-list"><ul class="highwire-article-collection-term-list"><li class="first last odd"><span class="highwire-article-collection-term"><a href="/collection/evolutionary-biology" class="highlight" data-icon-position="" data-hide-link-title="0">Evolutionary Biology<i class="icon-caret-right"></i>
 # </a></span></li></ul></div></div>
+#TODO fix errors doc
 
 def scrape(doiLinks):
 	numexcepts = 0
