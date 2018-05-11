@@ -120,7 +120,7 @@ def scrape(doiLinks):
 			
 			print 'Moving on to grab the next paper.\n'
 
-			if counter % 5 == 0:
+			if counter % 1025 == 0:
 				
 				#print 'Pausing for 30 sec so we dont look like a DDOS attack..'
 				#time.sleep(30)
@@ -142,7 +142,7 @@ def scrape(doiLinks):
 			with open('errors.txt', 'wb') as f:
 				f.write('Timeout exception event\n')
 				f.write(link + '\n\n')
-				f.write(numexcepts + '\n\n')
+				f.write(str(numexcepts) + '\n\n')
 			continue
 		counter += 1
 	    
@@ -193,7 +193,7 @@ def scrape(doiLinks):
 		f.write('Your session took this long to run [min]: ' + str(elapsed))
 
 	with open(download_path + '/'+ 'summary_journals.txt', 'wb') as f:
-		json.dump(doj, f)
+		json.dump(doJ, f)
 	print 'Sorted all files. A summary of your session is available in ../downloads/summary.txt'
 	elapsed = (timeit.default_timer() - start_time)/60
 	print 'Your session took this long to run [min]: ' + str(elapsed)

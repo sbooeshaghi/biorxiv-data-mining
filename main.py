@@ -41,7 +41,7 @@ import pandas as pd
 import re
 from lib.scrape import scrape
 
-links = pd.read_csv('doiLinks.csv')
+links = pd.read_csv('doi_links.csv')
 links = links.values.ravel()
 links = links.tolist()
 data = scrape(links)

@@ -2,6 +2,7 @@ from collections import OrderedDict
 from collections import Counter
 import re
 
+
 def getInfo(soup, doJ):
 ## Find out where it as published (if any) jrnl may be empty
 	try:
@@ -14,12 +15,13 @@ def getInfo(soup, doJ):
 		title = 'DOI Not Found'
 		rt = ['DOI Not Found']
 		real_link = ['DOI Not Found']
+		category = ['DOI Not Found']
 		if jrnl in doJ:
 			doJ[jrnl] += 1
 		else:
 			doJ[jrnl] = 1
 
-		return (jrnl, authors, date_posted, abstract, title, rt, real_link, doJ)
+		return (jrnl, authors, date_posted, abstract, title, rt, real_link, category, doJ)
 
 	if check_if_real == 'DOI Not Found':
 		jrnl = 'DOI Not Found'
@@ -29,12 +31,13 @@ def getInfo(soup, doJ):
 		title = 'DOI Not Found'
 		rt = ['DOI Not Found']
 		real_link = ['DOI Not Found']
+		category = ['DOI Not Found']
 		if jrnl in doJ:
 			doJ[jrnl] += 1
 		else:
 			doJ[jrnl] = 1
 
-		return (jrnl, authors, date_posted, abstract, title, rt, real_link, doJ)
+		return (jrnl, authors, date_posted, abstract, title, rt, real_link, category, doJ)
 
 	jrnl = soup.find_all('i')
 
@@ -114,8 +117,13 @@ def getInfo(soup, doJ):
 		rt = [('None', 'None')]
 	#import ipdb; ipdb.set_trace()
 	try:
-		category = soup.find('span', {'class':'highwire-article-collection-term'}).getText()
-		category = category.split('\n')[0]
+		categories = soup.find_all('span', {'class':'highwire-article-collection-term'})
+		category = []
+		for line in categories:
+			t = line.getText()
+			cat = t.split('\n')[0]
+			category.append(cat)
+		#category = category.split('\n')[0]
 	except AttributeError:
 		category = 'None'
 

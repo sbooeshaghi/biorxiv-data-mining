@@ -6,6 +6,7 @@
 import urllib2
 import os
 
+# TODO: Add download of SI, example link with SI https://www.biorxiv.org/content/early/2018/05/08/065110
 
 def download(soup, download_path, file_name, jrnl):
     #print 'doing this'
